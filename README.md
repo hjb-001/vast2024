@@ -1,8 +1,7 @@
 ## This a web-based applicaiton for VAST2024
 ## system architecture
-#### 1. Frontend
-> Library: React + VITE + D3 + Antd
-> Env: node 20.11.1
-#### 2. Backend
+#### 1. Frontend Intro (see `front`)
 
-## Dataset
+#### 2. Backend Intro (see `server`)
+
+#### 3. Dataset Describtion (see `data`)
