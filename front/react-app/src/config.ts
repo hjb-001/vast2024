@@ -1,3 +1,4 @@
 export const config = {
-    server: 'http://localhost:8000',
+    test_server: 'http://6ikki4.natappfree.cc/api',
+    
 }

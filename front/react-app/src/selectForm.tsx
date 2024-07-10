@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { Button, Form, Space, Radio, Dropdown, Select, Cascader, Input, Drawer, Divider, Checkbox, Col, Row, TreeSelect } from "antd";
-import type { MenuProps } from "antd";
-import axios from "axios";
 
-import { config } from "./config";
+import { Button, Form, Space, Radio, Slider, Select, Input, Drawer, Divider, TreeSelect } from "antd";
+import type { SliderSingleProps } from "antd";
 import './static/selectForm.css';
 
 interface SelectFormProps {
@@ -99,13 +97,21 @@ const human_relation_ship = [
     {value: 'Relationship.FamilyRelationship', label: 'Family Relationship'},
 ];
 
-export default function SelectForm() {
+interface SelectFormProps {
+    onDataChange: (entity_id: string) => void;
+}
+
+export default function SelectForm({onDataChange }: SelectFormProps) {
     const [form] = Form.useForm();
     const [entityType, setEntityType] = useState<'Company'|'Human'>('Company');  // Company or Human
     const [relation, setRelation] = useState<{value: string, label: string}[]>(company_relation_ship);
     const [openDrawer, setOpenDrawer] = useState<boolean>(false);
     const [concreteEntityType, setConcreteEntityType] = useState<string[]>(['All Company']); // Entity.Organization.Company or Entity.Person.Normal
 
+    const slider_format: NonNullable<SliderSingleProps['tooltip']>['formatter'] = (value: number | undefined) => {
+        return value === undefined? undefined: `${value.toString().slice(0, 4)}-${value.toString().slice(4, 6)}-${value.toString().slice(6)}`;
+    }
+    
     function handleEntityTypeChange(e: any){
         setEntityType(e.target.value)
         setRelation(e.target.value === 'Company' ? company_relation_ship : human_relation_ship)
@@ -118,12 +124,7 @@ export default function SelectForm() {
 
     async function handleSearch(){
         console.log(form.getFieldValue('entity_id'), form.getFieldValue('relation'));
-        // axios.post(`${config.server}/api/get${entityType}Relation`, {
-        //     entity_id: form.getFieldValue('entity_id'),
-        //     edge_type: form.getFieldValue('relation'),
-        // }).then((res)=>{
-        //     console.log(res.data);
-        // })
+        onDataChange(form.getFieldValue('entity_id'));
     } 
 
     return (
@@ -168,7 +169,7 @@ export default function SelectForm() {
                             <Select 
                                 key={entityType}
                                 placeholder="Select a relation"
-                                onChange={undefined}
+                                onChange={(value: string) => form.setFieldsValue({relation: value})}
                                 options={relation}
                             />
                         </Space>
@@ -176,7 +177,7 @@ export default function SelectForm() {
                 </Form>
             </Drawer>
 
-            <Divider orientation="left"> Entity Type </Divider>
+            <Divider orientation="left"> Filter option</Divider>
             <TreeSelect 
                 treeData={Entity_type_list}
                 value={concreteEntityType}
@@ -188,6 +189,7 @@ export default function SelectForm() {
                     setConcreteEntityType(newValue)
                 }}  
             />
+            <Slider range max={20400000} min = {19990000} defaultValue={[20210708, 20350401]} tooltip={{formatter: slider_format}}/>
         </div>
         
     )

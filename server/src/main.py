@@ -35,4 +35,5 @@ app.include_router(datacontroller,prefix='/api') # 注册数据控制器路由
 
 if __name__ == '__main__':
     import uvicorn
+    print("ff")
     uvicorn.run("main:app", host="127.0.0.1", port=5555, log_level="info",reload=True)

@@ -6,7 +6,7 @@ import SelectForm from './selectForm';
 
 
 export default function Layout(){
-
+    const [entity_id, setEntityId] = useState<string>("");
 
     function handleRelationChange(e: any){
     }
@@ -30,11 +30,11 @@ export default function Layout(){
                                 <Row>
                                     <Col span={6}>
                                         <Card  styles={{body: {padding: '10px', height: '40vh'}}}>
-                                            <SelectForm />
+                                            <SelectForm onDataChange={(entity_id) => setEntityId(entity_id)}/>
                                         </Card>
                                     </Col>
                                     <Col span={18}>
-                                        <NetChart  /> 
+                                        <NetChart  entity_id={entity_id}/> 
                                     </Col>
                                 </Row>
                             </Card>   

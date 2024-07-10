@@ -18,6 +18,7 @@ links = []
 
 #初始化多维无向图
 def initAdjacentList():
+    print("initAdjacentList")
     jsonItem = read_mc3()
     for i in range(len(jsonItem['nodes'])):
         nodesList.append(jsonItem['nodes'][i]['id'])
@@ -113,7 +114,6 @@ async def findRelation(item_id : str):
 def read_mc3():
     with open('../mc3.json','r',encoding='utf-8') as f:
         data = json.load(f)  #data是一个字典 {'nodes':[],'links':[]}
-    # print(data.get("nodes")[0].get("type"))
     return data
 
 #初始化多维无向图
